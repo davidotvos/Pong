@@ -12,6 +12,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
+BALL_RADIUS = 7
 
 
 class Paddle:
@@ -79,7 +80,7 @@ def draw(win, paddles, ball):
             continue
         pygame.draw.rect(win, WHITE, (WIDTH//2 - 5, i, 10, HEIGHT//20))
 
-
+    ball.draw(win)
     pygame.display.update()
 
 
@@ -105,9 +106,12 @@ def main():
     left_paddle = Paddle(10, HEIGHT//2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)
     right_paddle = Paddle(WIDTH - 10 - PADDLE_WIDTH, HEIGHT // 2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
 
+    # Create the ball
+    ball = Ball(WIDTH // 2, HEIGHT // 2, BALL_RADIUS)
+
     while run:
         clock.tick(FPS)
-        draw(WIN, [left_paddle, right_paddle])
+        draw(WIN, [left_paddle, right_paddle], ball)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -116,6 +120,8 @@ def main():
 
         keys = pygame.key.get_pressed()
         handle_paddle_movement(keys, left_paddle, right_paddle)
+
+        ball.move()
 
     pygame.quit()
 
