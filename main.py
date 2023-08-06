@@ -68,9 +68,15 @@ class Ball:
         self.x_vel *= -1
 
 
-def draw(win, paddles, ball):
+def draw(win, paddles, ball, left_score, right_score):
     win.fill(BLACK)
     pygame.display.update()
+
+    left_score_text = SCORE_FONT.render(f"{left_score}", 1, WHITE)
+    right_score_text = SCORE_FONT.render(f"{right_score}", 1, WHITE)
+    win.blit(left_score_text, (WIDTH//4 - left_score_text.get_width()//2, 20))
+    win.blit(right_score_text, (WIDTH * (3/4) -
+                                right_score_text.get_width()//2, 20))
 
     # Drawing the paddles
     for paddle in paddles:
@@ -144,9 +150,12 @@ def main():
     # Create the ball
     ball = Ball(WIDTH // 2, HEIGHT // 2, BALL_RADIUS)
 
+    left_score = 0
+    right_score = 0
+
     while run:
         clock.tick(FPS)
-        draw(WIN, [left_paddle, right_paddle], ball)
+        draw(WIN, [left_paddle, right_paddle], ball, left_score, right_score)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
